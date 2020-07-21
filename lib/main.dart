@@ -10,11 +10,14 @@ void main() {
   var initialState = riskFactorNames
       .asMap()
       .entries
-      .map((e) => RiskFactor(e.key, e.value))
+      .map((e) => RiskFactor()(e.key, e.value))
       .toList();
   print(initialState);
   final store = new Store(riskFactorsReducer, initialState: initialState);
   runApp(MyApp(store));
+}
+
+class RiskFactor() {
 }
 
 class MyApp extends StatelessWidget {
