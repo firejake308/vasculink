@@ -193,42 +193,33 @@ class _MyAppState extends State<MyApp>{
         ),
         /////////////////////////////////////////////////
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(top: 30.0),
-          child: FloatingActionButton(
-            backgroundColor: Colors.white,
-            onPressed: () {},
-            child: Icon(
-              Icons.add,
-              color: Colors.blue,
-            ),
-            elevation: 2.0,
-          ),
+floatingActionButton: FloatingActionButton(
+  backgroundColor: Colors.white,
+  onPressed: () {},
+  child: Icon(
+    Icons.add,
+    color: Colors.blue,
+  ),
+  elevation: 5.0,
+),
+bottomNavigationBar: BottomAppBar(
+  child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 50.0),
+    child: Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Icon(Icons.home),
+        Padding(
+          padding: const EdgeInsets.only(top: 40.0),
+          child: Text('USE CARD'),
         ),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-              boxShadow: [BoxShadow(color: Colors.black54, blurRadius: 10)]),
-          child: BottomAppBar(
-            //shape: CircularOuterNotchedRectangle(),
-            //notchMargin: 1.0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 70.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Icon(Icons.home, color: Colors.white,),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40.0),
-                    child: Text('New Entry'),
-                  ),
-                  Icon(Icons.person_outline, color: Colors.white)
-                ],
-              ),
-            ),
-            color: Colors.blue,
-          ),
-        ),
+        Icon(Icons.person_outline)
+      ],
+    ),
+  ),
+  color: Colors.blue,
+),
 
         //////////////////////////////////////////////////
       ),
