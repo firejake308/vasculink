@@ -22,19 +22,28 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
+  var _riskLevel;
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState(_riskLevel);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  var imageName = 'images/HighRisk.png';
+
+  _MyHomePageState(int _riskLevel) {
+    this.imageName = getImage(_riskLevel);
+  }
+
+  String getImage(int _riskLevel) {
+    if (_riskLevel < 3) {
+      return 'images/LowRisk.png';
+    } else if (_riskLevel < 5) {
+      return 'images/MediumRisk.png';
+    }
+    return 'images/HighRisk.png';
   }
 
   @override
@@ -144,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Container(
               child: Image.asset(
-                  'images/dial.png',
+                  imageName,
                   height: 150,
 //                  width: 100,
                 ),
