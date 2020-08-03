@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class RiskFactorsPage extends StatefulWidget {
@@ -121,19 +120,11 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
               ),
               InkWell(
                   onTap: () {
-                    if (isSelected[0] == false) {
-                      setState(() {
-                        firstCard =
-                            createCard("Smoker", Icons.smoking_rooms, true);
-                        isSelected[0] = true;
-                      });
-                    } else {
-                      setState(() {
-                        firstCard =
-                            createCard("Smoker", Icons.smoking_rooms, false);
-                        isSelected[0] = false;
-                      });
-                    }
+                    setState(() {
+                      firstCard = createCard(
+                          "Smoker", Icons.smoking_rooms, !isSelected[0]);
+                      isSelected[0] = !isSelected[0];
+                    });
                     changeRiskLevel();
                   },
                   child: Padding(
@@ -145,19 +136,11 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
               ),
               InkWell(
                   onTap: () {
-                    if (isSelected[1] == false) {
-                      setState(() {
-                        secondCard =
-                            createCard("BMI > 30", Icons.warning, true);
-                        isSelected[1] = true;
-                      });
-                    } else {
-                      setState(() {
-                        secondCard =
-                            createCard("BMI > 30", Icons.warning, false);
-                        isSelected[1] = false;
-                      });
-                    }
+                    setState(() {
+                      firstCard =
+                          createCard("BMI > 30", Icons.warning, !isSelected[1]);
+                      isSelected[1] = !isSelected[1];
+                    });
                     changeRiskLevel();
                   },
                   child: Padding(
@@ -169,19 +152,11 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
               ),
               InkWell(
                   onTap: () {
-                    if (isSelected[2] == false) {
-                      setState(() {
-                        thirdCard =
-                            createCard("Reoperation", Icons.content_cut, true);
-                        isSelected[2] = true;
-                      });
-                    } else {
-                      setState(() {
-                        thirdCard =
-                            createCard("Reoperation", Icons.content_cut, false);
-                        isSelected[2] = false;
-                      });
-                    }
+                    setState(() {
+                      firstCard = createCard(
+                          "Reoperation", Icons.content_cut, !isSelected[2]);
+                      isSelected[2] = !isSelected[2];
+                    });
                     changeRiskLevel();
                   },
                   child: Padding(
@@ -193,23 +168,11 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
               ),
               InkWell(
                   onTap: () {
-                    if (isSelected[3] == false) {
-                      setState(() {
-                        fourthCard = createCard(
-                            "Presence of prosthetic material",
-                            Icons.create,
-                            true);
-                        isSelected[3] = true;
-                      });
-                    } else {
-                      setState(() {
-                        fourthCard = createCard(
-                            "Presence of prosthetic material",
-                            Icons.create,
-                            false);
-                        isSelected[3] = false;
-                      });
-                    }
+                    setState(() {
+                      firstCard = createCard("Presence of prosthetic material",
+                          Icons.create, !isSelected[3]);
+                      isSelected[3] = !isSelected[3];
+                    });
                     changeRiskLevel();
                   },
                   child: Padding(
