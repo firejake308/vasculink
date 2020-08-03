@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
+
 class RiskFactor {
   final String name;
   final int index;
   bool value;
+  IconData icon;
 
-  RiskFactor(this.index, this.name, {this.value = false});
+  RiskFactor(this.index, this.name, this.icon, {this.value = false});
 }
 
 // encapsulates an update to the value of a risk factor

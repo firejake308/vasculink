@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:vasculink/state_manager.dart';
 
 class RiskFactorsPage extends StatefulWidget {
   @override
@@ -8,57 +10,38 @@ class RiskFactorsPage extends StatefulWidget {
 
 class _RiskFactorsPageState extends State<RiskFactorsPage> {
   int riskLevel;
-  List<bool> isSelected;
-  Card firstCard;
-  Card secondCard;
-  Card thirdCard;
-  Card fourthCard;
-
-  void changeRiskLevel() {
-    isSelected.forEach((element) {
-      if (element == true) {
-        riskLevel += 1;
-      } else {
-        riskLevel -= 1;
-      }
-    });
-  }
+  List<Card> cards;
 
   // Helper function to create a new card
-  Card createCard(String targetText, IconData targetIcon, bool tapped) {
-    Card newCard = Card(
-      color: tapped ? Colors.blue : Colors.white,
-      child: Center(
-        child: ListTile(
-          leading: Icon(
-            targetIcon,
-            color: tapped ? Colors.white : Colors.black,
-            size: 25,
-          ),
-          title: Text(
-            targetText,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: tapped ? Colors.white : Colors.black,
+  Widget _createCard(RiskFactor riskFactor) {
+    return StoreConnector<List<RiskFactor>, VoidCallback>(converter: (store) {
+      return () => store
+          .dispatch(SetRiskFactorAction(riskFactor.index, !riskFactor.value));
+    }, builder: (context, callback) {
+      return InkWell(
+        onTap: callback,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Card(
+            color: riskFactor.value ? Colors.blue : Colors.white,
+            child: Center(
+              child: ListTile(
+                  leading: Icon(
+                    riskFactor.icon,
+                    color: riskFactor.value ? Colors.white : Colors.black,
+                    size: 25,
+                  ),
+                  title: Text(riskFactor.name,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: riskFactor.value ? Colors.white : Colors.black,
+                      ))),
             ),
           ),
         ),
-      ),
-    );
-    return newCard;
-  }
-
-  @override
-  void initState() {
-    isSelected = [false, false, false, false];
-    riskLevel = 0;
-    super.initState();
-    firstCard = createCard("Smoker", Icons.smoking_rooms, false);
-    secondCard = createCard("BMI > 30", Icons.warning, false);
-    thirdCard = createCard("Reoperation", Icons.content_cut, false);
-    fourthCard =
-        createCard("Presence of prosthetic material", Icons.create, false);
+      );
+    });
   }
 
   @override
@@ -100,108 +83,51 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
               ),
             )),
         body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Text(
-                  "Select patient risk factors",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      firstCard = createCard(
-                          "Smoker", Icons.smoking_rooms, !isSelected[0]);
-                      isSelected[0] = !isSelected[0];
-                    });
-                    changeRiskLevel();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: firstCard,
-                  )),
-              SizedBox(
-                height: 5,
-              ),
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      firstCard =
-                          createCard("BMI > 30", Icons.warning, !isSelected[1]);
-                      isSelected[1] = !isSelected[1];
-                    });
-                    changeRiskLevel();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: secondCard,
-                  )),
-              SizedBox(
-                height: 5,
-              ),
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      firstCard = createCard(
-                          "Reoperation", Icons.content_cut, !isSelected[2]);
-                      isSelected[2] = !isSelected[2];
-                    });
-                    changeRiskLevel();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: thirdCard,
-                  )),
-              SizedBox(
-                height: 5,
-              ),
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      firstCard = createCard("Presence of prosthetic material",
-                          Icons.create, !isSelected[3]);
-                      isSelected[3] = !isSelected[3];
-                    });
-                    changeRiskLevel();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: fourthCard,
-                  )),
-              SizedBox(height: 25),
-              RawMaterialButton(
-                onPressed: () {
-                  // TODO: Implement page jump here
-                },
-                elevation: 2.0,
-                fillColor: Colors.blue,
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 35.0,
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.all(15.0),
-                shape: CircleBorder(),
-              ),
-              SizedBox(height: 10),
-              Center(
-                  child: Text(
-                "Selection Complete",
-                style: TextStyle(color: Colors.grey, fontSize: 18),
-              )),
-            ],
-          ),
+          child: StoreConnector<List<RiskFactor>, List<RiskFactor>>(
+              converter: (store) => store.state,
+              builder: (context, riskFactors) {
+                // build cards for each risk factor
+                List<Widget> cards = riskFactors.map(_createCard).toList();
+
+                return Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Text(
+                        "Select patient risk factors",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    ...cards,
+                    RawMaterialButton(
+                      onPressed: () {
+                        // TODO: Implement page jump here
+                      },
+                      elevation: 2.0,
+                      fillColor: Colors.blue,
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 35.0,
+                        color: Colors.white,
+                      ),
+                      padding: EdgeInsets.all(15.0),
+                      shape: CircleBorder(),
+                    ),
+                    SizedBox(height: 10),
+                    Center(
+                        child: Text(
+                      "Selection Complete",
+                      style: TextStyle(color: Colors.grey, fontSize: 18),
+                    )),
+                  ],
+                );
+              }),
         ),
         /////////////////////////////////////////////////
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
