@@ -24,7 +24,7 @@ class ResultPage extends StatelessWidget {
         return store.state.fold(
             0,
             (runningSum, riskFactor) =>
-                runningSum + (riskFactor.value ? 1 : 0));
+                runningSum + (riskFactor.value ? riskFactor.weight : 0));
       }, builder: (context, riskLevel) {
         // build the string for the appropriate risk level
         String riskLevelText;
