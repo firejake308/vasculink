@@ -3,9 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:vasculink/state_manager.dart';
 
 class ResultPage extends StatelessWidget {
-  final int _riskLevel;
-
-  ResultPage(this._riskLevel);
+  ResultPage();
 
   String getImage(int riskLevel) {
     if (riskLevel < 3) {
@@ -18,15 +16,6 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String riskLevelText;
-    if (_riskLevel < 3) {
-      riskLevelText = 'Low';
-    } else if (_riskLevel < 5) {
-      riskLevelText = 'Medium';
-    } else {
-      riskLevelText = 'High';
-    }
-
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(130.0),
@@ -40,7 +29,7 @@ class ResultPage extends StatelessWidget {
                     icon: Icon(Icons.clear),
                     tooltip: "cancel the entry",
                     onPressed: () {
-                      // TODO: implement cancel function
+                      Navigator.pushNamed(context, '/');
                     },
                     color: Colors.white,
                     iconSize: 30,
@@ -69,6 +58,16 @@ class ResultPage extends StatelessWidget {
             (runningSum, riskFactor) =>
                 runningSum + (riskFactor.value ? 1 : 0));
       }, builder: (context, riskLevel) {
+        // build the string for the appropriate risk level
+        String riskLevelText;
+        if (riskLevel < 3) {
+          riskLevelText = 'Low';
+        } else if (riskLevel < 5) {
+          riskLevelText = 'Medium';
+        } else {
+          riskLevelText = 'High';
+        }
+
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -95,7 +94,7 @@ class ResultPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        _riskLevel.toString(),
+                        riskLevel.toString(),
                         style: TextStyle(
                           color: Colors.blue[400],
                           fontSize: 55,
@@ -138,7 +137,7 @@ class ResultPage extends StatelessWidget {
             ),
             Container(
               child: Image.asset(
-                getImage(_riskLevel),
+                getImage(riskLevel),
                 height: 180,
               ),
             ),
