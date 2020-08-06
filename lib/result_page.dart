@@ -1,22 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:vasculink/state_manager.dart';
 
-class ResultPage extends StatefulWidget {
-  final riskLevel;
+class ResultPage extends StatelessWidget {
+  final int _riskLevel;
 
-  ResultPage(this.riskLevel);
-
-  @override
-  _ResultPageState createState() => _ResultPageState(riskLevel);
-}
-
-class _ResultPageState extends State<ResultPage> {
-  var imageName = 'images/HighRisk.png';
-  int _riskLevel;
-
-  _ResultPageState(int riskLevel) {
-    this._riskLevel = riskLevel;
-    this.imageName = getImage(riskLevel);
-  }
+  ResultPage(this._riskLevel);
 
   String getImage(int riskLevel) {
     if (riskLevel < 3) {
@@ -74,82 +63,88 @@ class _ResultPageState extends State<ResultPage> {
             ),
           )),
       backgroundColor: Colors.grey[100],
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Patient Score',
-            style: TextStyle(
-              color: Colors.blue[400],
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
+      body: StoreConnector<List<RiskFactor>, int>(converter: (store) {
+        return store.state.fold(
+            0,
+            (runningSum, riskFactor) =>
+                runningSum + (riskFactor.value ? 1 : 0));
+      }, builder: (context, riskLevel) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Patient Score',
+              style: TextStyle(
+                color: Colors.blue[400],
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Card(
-            elevation: 0.0,
-            margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 60.0),
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      _riskLevel.toString(),
-                      style: TextStyle(
-                        color: Colors.blue[400],
-                        fontSize: 55,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '/',
-                      style: TextStyle(
-                        color: Colors.blue[400],
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '7',
-                      style: TextStyle(
-                        color: Colors.blue[400],
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '$riskLevelText Risk',
-                  style: TextStyle(
-                    color: Colors.black26,
-                    fontSize: 25,
+            SizedBox(
+              height: 10,
+            ),
+            Card(
+              elevation: 0.0,
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 60.0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        _riskLevel.toString(),
+                        style: TextStyle(
+                          color: Colors.blue[400],
+                          fontSize: 55,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '/',
+                        style: TextStyle(
+                          color: Colors.blue[400],
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '7',
+                        style: TextStyle(
+                          color: Colors.blue[400],
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    '$riskLevelText Risk',
+                    style: TextStyle(
+                      color: Colors.black26,
+                      fontSize: 25,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-            child: Image.asset(
-              imageName,
-              height: 180,
-//                  width: 100,
+            Container(
+              child: Image.asset(
+                getImage(_riskLevel),
+                height: 180,
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
