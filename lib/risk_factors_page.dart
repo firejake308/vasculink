@@ -56,8 +56,7 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
               // build cards for each risk factor
               List<Widget> cards = riskFactors.map(_createCard).toList();
 
-              return SingleChildScrollView(
-                  child: Column(
+              return Column(
                 children: <Widget>[
                   SizedBox(
                     height: 30,
@@ -72,74 +71,24 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
                       ),
                     ),
                   ),
-                  ...cards,
-                  RawMaterialButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/results');
-                    },
-                    elevation: 2.0,
-                    fillColor: Colors.blue,
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 35.0,
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
-                  ),
-                  SizedBox(height: 10),
-                  Center(
-                      child: Text(
-                    "Selection Complete",
-                    style: TextStyle(color: Colors.grey, fontSize: 18),
-                  )),
+                  ...cards
                 ],
-              ));
+              );
             }),
       ),
-      /////////////////////////////////////////////////
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 30.0),
-        child: FloatingActionButton(
-          backgroundColor: Colors.white,
-          onPressed: () {},
-          child: Icon(
-            Icons.add,
-            color: Colors.blue,
-          ),
-          elevation: 2.0,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/results');
+        },
+        backgroundColor: Colors.blue,
+        tooltip: 'Calculate risk',
+        child: Icon(
+          Icons.arrow_forward_ios,
+          size: 24.0,
+          color: Colors.white,
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-            boxShadow: [BoxShadow(color: Colors.black54, blurRadius: 10)]),
-        child: BottomAppBar(
-          //shape: CircularOuterNotchedRectangle(),
-          //notchMargin: 1.0,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 70.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Icon(
-                  Icons.home,
-                  color: Colors.white,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: Text('New Entry'),
-                ),
-                Icon(Icons.person_outline, color: Colors.white)
-              ],
-            ),
-          ),
-          color: Colors.blue,
-        ),
-      ),
-
-      //////////////////////////////////////////////////
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
