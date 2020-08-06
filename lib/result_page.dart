@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatefulWidget {
-  final _riskLevel;
+  final riskLevel;
 
-  ResultPage(this._riskLevel);
+  ResultPage(this.riskLevel);
 
   @override
-  _ResultPageState createState() => _ResultPageState(_riskLevel);
+  _ResultPageState createState() => _ResultPageState(riskLevel);
 }
 
 class _ResultPageState extends State<ResultPage> {
   var imageName = 'images/HighRisk.png';
+  int _riskLevel;
 
   _ResultPageState(int riskLevel) {
+    this._riskLevel = riskLevel;
     this.imageName = getImage(riskLevel);
   }
 
@@ -27,6 +29,15 @@ class _ResultPageState extends State<ResultPage> {
 
   @override
   Widget build(BuildContext context) {
+    String riskLevelText;
+    if (_riskLevel < 3) {
+      riskLevelText = 'Low';
+    } else if (_riskLevel < 5) {
+      riskLevelText = 'Medium';
+    } else {
+      riskLevelText = 'High';
+    }
+
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(130.0),
@@ -89,7 +100,7 @@ class _ResultPageState extends State<ResultPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      '4',
+                      _riskLevel.toString(),
                       style: TextStyle(
                         color: Colors.blue[400],
                         fontSize: 55,
@@ -118,7 +129,7 @@ class _ResultPageState extends State<ResultPage> {
                   height: 10,
                 ),
                 Text(
-                  'Medium Risk',
+                  '$riskLevelText Risk',
                   style: TextStyle(
                     color: Colors.black26,
                     fontSize: 25,
