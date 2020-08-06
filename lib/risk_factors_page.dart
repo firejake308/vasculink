@@ -48,7 +48,7 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: VasculinkAppBar().build(context),
+      appBar: VasculinkAppBar('Risk Factors').build(context),
       body: SafeArea(
         child: StoreConnector<List<RiskFactor>, List<RiskFactor>>(
             converter: (store) => store.state,

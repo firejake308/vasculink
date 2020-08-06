@@ -18,14 +18,20 @@ class ResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: VasculinkAppBar().build(context),
+      appBar: VasculinkAppBar('Results').build(context),
       backgroundColor: Colors.grey[100],
-      body: StoreConnector<List<RiskFactor>, int>(converter: (store) {
-        return store.state.fold(
+      body: StoreConnector<List<RiskFactor>, List<RiskFactor>>(
+          converter: (store) {
+        return store.state;
+      }, builder: (context, riskFactors) {
+        // calculate maximum and actual risk level
+        int riskLevel = riskFactors.fold(
             0,
             (runningSum, riskFactor) =>
                 runningSum + (riskFactor.value ? riskFactor.weight : 0));
-      }, builder: (context, riskLevel) {
+        int maxRisk = riskFactors.fold(
+            0, (runningSum, riskFactor) => runningSum + riskFactor.weight);
+
         // build the string for the appropriate risk level
         String riskLevelText;
         if (riskLevel < 3) {
@@ -70,15 +76,7 @@ class ResultPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '/',
-                        style: TextStyle(
-                          color: Colors.blue[400],
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '7',
+                        '/$maxRisk',
                         style: TextStyle(
                           color: Colors.blue[400],
                           fontSize: 25,
