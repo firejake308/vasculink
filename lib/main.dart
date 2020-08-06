@@ -7,15 +7,16 @@ import 'package:vasculink/state_manager.dart';
 
 void main() {
   const riskFactorNames = [
-    ["Smoker", Icons.smoking_rooms],
-    ["BMI > 30", Icons.warning],
-    ["Reoperation", Icons.content_cut],
-    ["Presence of prosthetic material", Icons.create],
+    ["Female", 2, Icons.wc],
+    ["Smoker", 1, Icons.smoking_rooms],
+    ["BMI > 30", 5, Icons.warning],
+    ["Reoperation", 7, Icons.replay],
+    ["Prosthetic reconstruction", 1, Icons.content_cut],
   ];
   var initialState = riskFactorNames
       .asMap()
       .entries
-      .map((e) => RiskFactor(e.key, e.value[0], e.value[1]))
+      .map((e) => RiskFactor(e.key, e.value[0], e.value[1], e.value[2]))
       .toList();
   final store = new Store(riskFactorsReducer, initialState: initialState);
   runApp(MyApp(store));
