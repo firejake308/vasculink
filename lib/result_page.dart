@@ -1,44 +1,25 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+class ResultPage extends StatefulWidget {
+  final _riskLevel;
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Vasculink App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(0 ),// TODO: change 0 to the actual risk level value),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-
-  var _riskLevel;
-
-  MyHomePage(this._riskLevel);
+  ResultPage(this._riskLevel);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState(_riskLevel);
+  _ResultPageState createState() => _ResultPageState(_riskLevel);
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-
+class _ResultPageState extends State<ResultPage> {
   var imageName = 'images/HighRisk.png';
 
-  _MyHomePageState(int _riskLevel) {
-    this.imageName = getImage(_riskLevel);
+  _ResultPageState(int riskLevel) {
+    this.imageName = getImage(riskLevel);
   }
 
-  String getImage(int _riskLevel) {
-    if (_riskLevel < 3) {
+  String getImage(int riskLevel) {
+    if (riskLevel < 3) {
       return 'images/LowRisk.png';
-    } else if (_riskLevel < 5) {
+    } else if (riskLevel < 5) {
       return 'images/MediumRisk.png';
     }
     return 'images/HighRisk.png';
@@ -46,21 +27,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(130.0),
           child: AppBar(
             elevation: 0,
             flexibleSpace: Padding(
-              padding: const EdgeInsets.fromLTRB(0,65,0,0),
+              padding: const EdgeInsets.fromLTRB(0, 65, 0, 0),
               child: Row(
-                children:<Widget> [
+                children: <Widget>[
                   IconButton(
                     icon: Icon(Icons.clear),
                     tooltip: "cancel the entry",
-                    onPressed: (){
+                    onPressed: () {
                       // TODO: implement cancel function
                     },
                     color: Colors.white,
@@ -82,13 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 bottom: Radius.circular(29),
               ),
             ),
-          )
-      ),
-
+          )),
       backgroundColor: Colors.grey[100],
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children:<Widget> [
+        children: <Widget>[
           Text(
             'Patient Score',
             style: TextStyle(
@@ -104,28 +81,31 @@ class _MyHomePageState extends State<MyHomePage> {
             elevation: 0.0,
             margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 60.0),
             child: Column(
-              children:<Widget> [
+              children: <Widget>[
                 SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children:<Widget> [
-                    Text('4',
+                  children: <Widget>[
+                    Text(
+                      '4',
                       style: TextStyle(
                         color: Colors.blue[400],
                         fontSize: 55,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text('/',
+                    Text(
+                      '/',
                       style: TextStyle(
                         color: Colors.blue[400],
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text('7',
+                    Text(
+                      '7',
                       style: TextStyle(
                         color: Colors.blue[400],
                         fontSize: 25,
@@ -137,7 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 10,
                 ),
-                Text('Medium Risk',
+                Text(
+                  'Medium Risk',
                   style: TextStyle(
                     color: Colors.black26,
                     fontSize: 25,
@@ -158,7 +139,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
