@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:vasculink/state_manager.dart';
+import 'package:vasculink/vasculink_app_bar.dart';
 
 class ResultPage extends StatelessWidget {
   ResultPage();
@@ -17,40 +18,7 @@ class ResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(130.0),
-          child: AppBar(
-            elevation: 0,
-            flexibleSpace: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 65, 0, 0),
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.clear),
-                    tooltip: "cancel the entry",
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/');
-                    },
-                    color: Colors.white,
-                    iconSize: 30,
-                  ),
-                  Text(
-                    'Result',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            backgroundColor: Colors.blue[400],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(29),
-              ),
-            ),
-          )),
+      appBar: VasculinkAppBar().build(context),
       backgroundColor: Colors.grey[100],
       body: StoreConnector<List<RiskFactor>, int>(converter: (store) {
         return store.state.fold(
