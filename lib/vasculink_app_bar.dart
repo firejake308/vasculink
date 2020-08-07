@@ -9,7 +9,7 @@ class VasculinkAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.blue[400],
+      backgroundColor: Theme.of(context).primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(16),
@@ -18,7 +18,6 @@ class VasculinkAppBar extends StatelessWidget {
       title: Text(
         _pageTitle,
         style: TextStyle(
-          color: Colors.white,
           fontSize: 24,
         ),
       ),

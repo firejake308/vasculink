@@ -34,12 +34,16 @@ class ResultPage extends StatelessWidget {
 
         // build the string for the appropriate risk level
         String riskLevelText;
+        Color riskLevelColor;
         if (riskLevel < 3) {
           riskLevelText = 'Low';
+          riskLevelColor = Colors.lightBlue;
         } else if (riskLevel < 5) {
           riskLevelText = 'Medium';
+          riskLevelColor = Colors.blue;
         } else {
           riskLevelText = 'High';
+          riskLevelColor = Color(0xff005490);
         }
 
         return Column(
@@ -48,7 +52,7 @@ class ResultPage extends StatelessWidget {
             Text(
               'Patient Score',
               style: TextStyle(
-                color: Colors.blue[400],
+                color: Theme.of(context).primaryColor,
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
@@ -70,7 +74,7 @@ class ResultPage extends StatelessWidget {
                       Text(
                         riskLevel.toString(),
                         style: TextStyle(
-                          color: Colors.blue[400],
+                          color: riskLevelColor,
                           fontSize: 55,
                           fontWeight: FontWeight.bold,
                         ),
@@ -78,7 +82,7 @@ class ResultPage extends StatelessWidget {
                       Text(
                         '/$maxRisk',
                         style: TextStyle(
-                          color: Colors.blue[400],
+                          color: Theme.of(context).primaryColor,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),

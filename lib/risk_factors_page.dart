@@ -24,7 +24,9 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Card(
-            color: riskFactor.value ? Colors.blue : Colors.white,
+            color: riskFactor.value
+                ? Theme.of(context).primaryColor
+                : Colors.white,
             child: Center(
               child: ListTile(
                   leading: Icon(
@@ -81,7 +83,7 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
         onPressed: () {
           Navigator.pushNamed(context, '/results');
         },
-        backgroundColor: Colors.blue,
+        backgroundColor: Theme.of(context).primaryColor,
         tooltip: 'Calculate risk',
         child: Icon(
           Icons.arrow_forward_ios,
