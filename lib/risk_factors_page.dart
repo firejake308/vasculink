@@ -4,15 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:vasculink/state_manager.dart';
 import 'package:vasculink/vasculink_app_bar.dart';
 
-class RiskFactorsPage extends StatefulWidget {
-  @override
-  _RiskFactorsPageState createState() => _RiskFactorsPageState();
-}
-
-class _RiskFactorsPageState extends State<RiskFactorsPage> {
-  int riskLevel;
-  List<Card> cards;
-
+class RiskFactorsPage extends StatelessWidget {
   // Helper function to create a new card
   Widget _createCard(RiskFactor riskFactor) {
     return StoreConnector<List<RiskFactor>, VoidCallback>(converter: (store) {

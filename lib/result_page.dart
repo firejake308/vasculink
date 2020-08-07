@@ -4,8 +4,6 @@ import 'package:vasculink/state_manager.dart';
 import 'package:vasculink/vasculink_app_bar.dart';
 
 class ResultPage extends StatelessWidget {
-  ResultPage();
-
   String getImage(int riskLevel) {
     if (riskLevel < 3) {
       return 'images/LowRisk.png';
