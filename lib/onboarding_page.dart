@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardingPage extends StatefulWidget {
   @override
@@ -10,7 +11,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
-    Navigator.of(context).pushNamed('/risk-factors');
+    _hideOnBoardingPermanently();
+    Navigator.of(context).pushNamed('/');
+  }
+
+  void _hideOnBoardingPermanently() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('tutorial_shown', true);
   }
 
   Widget _buildImage(String assetName) {

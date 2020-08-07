@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vasculink/state_manager.dart';
 import 'package:vasculink/vasculink_app_bar.dart';
 
@@ -41,6 +42,13 @@ class RiskFactorsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs.getBool('tutorial_shown') == null) {
+        print("tutorial_shown = ${prefs.getBool('tutorial_shown')}");
+        Navigator.of(context).pushNamed('/onboarding');
+      }
+    });
+
     return Scaffold(
       appBar: VasculinkAppBar('Risk Factors').build(context),
       body: SafeArea(

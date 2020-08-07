@@ -36,9 +36,9 @@ class MyApp extends StatelessWidget {
               accentColor: Colors.lightBlue,
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
-            home: OnBoardingPage(),
+            home: RiskFactorsPage(),
             routes: <String, WidgetBuilder>{
-              '/risk-factors': (BuildContext ctx) => RiskFactorsPage(),
+              '/onboarding': (BuildContext ctx) => OnBoardingPage(),
               '/results': (BuildContext ctx) => ResultPage(),
             }));
   }
