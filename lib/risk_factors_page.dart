@@ -56,7 +56,8 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
               // build cards for each risk factor
               List<Widget> cards = riskFactors.map(_createCard).toList();
 
-              return Column(
+              return SingleChildScrollView(
+                  child: Column(
                 children: <Widget>[
                   SizedBox(
                     height: 30,
@@ -73,7 +74,7 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
                   ),
                   ...cards
                 ],
-              );
+              ));
             }),
       ),
       floatingActionButton: FloatingActionButton(

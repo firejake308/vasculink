@@ -29,14 +29,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => HomePage()),
-    );
+    Navigator.of(context).pushNamed('/risk-factors');
   }
 
   Widget _buildImage(String assetName) {
     return Align(
-      child: Image.asset('assets/$assetName.png', width: 350.0),
+      child: Image.asset('images/$assetName.png', width: 350.0),
       alignment: Alignment.bottomCenter,
     );
   }
@@ -57,8 +55,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       pages: [
         PageViewModel(
           title: "Evaluate pre-operative risk",
-          body:
-              "Using our validated risk assessment algorithm.",
+          body: "Using our validated risk assessment algorithm.",
           image: _buildImage('maleDoc'),
           decoration: pageDecoration,
         ),
@@ -66,30 +63,27 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           title: "Improve decision making",
           body: "Reduce complications and improve patient outcomes",
           image: _buildImage('femaleDoc'),
-          footer: RaisedButton(
-            onPressed: () {
-              introKey.currentState?.animateScroll(0);
-            },
-            child: const Text(
-              'Start Now',
-              style: TextStyle(color: Colors.white),
-            ),
-            color: Colors.lightBlue,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
           decoration: pageDecoration,
         ),
       ],
       onDone: () => _onIntroEnd(context),
-      //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
+      onSkip: () => _onIntroEnd(context),
       showSkipButton: true,
       skipFlex: 0,
       nextFlex: 0,
       skip: const Text('Skip'),
       next: const Icon(Icons.arrow_forward),
-      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+      done: RaisedButton(
+        onPressed: () => _onIntroEnd(context),
+        child: const Text(
+          'Start Now',
+          style: TextStyle(color: Colors.white),
+        ),
+        color: Colors.lightBlue,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
         color: Color(0xFFBDBDBD),
@@ -98,16 +92,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           borderRadius: BorderRadius.all(Radius.circular(25.0)),
         ),
       ),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: const Center(child: Text("This is the screen after Introduction")),
     );
   }
 }

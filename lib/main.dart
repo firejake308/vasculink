@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:vasculink/onboarding_page.dart';
 import 'package:vasculink/result_page.dart';
 import 'package:vasculink/risk_factors_page.dart';
 import 'package:vasculink/state_manager.dart';
@@ -34,8 +35,9 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
-            home: RiskFactorsPage(),
+            home: OnBoardingPage(),
             routes: <String, WidgetBuilder>{
+              '/risk-factors': (BuildContext ctx) => RiskFactorsPage(),
               '/results': (BuildContext ctx) => ResultPage(),
             }));
   }
