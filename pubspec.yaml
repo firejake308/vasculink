@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_redux: ^0.6.0
+  introduction_screen: ^1.0.7
 
 
   # The following adds the Cupertino Icons font to your application.
