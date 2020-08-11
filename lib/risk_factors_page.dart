@@ -1,18 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vasculink/state_manager.dart';
 import 'package:vasculink/vasculink_app_bar.dart';
 
-class RiskFactorsPage extends StatefulWidget {
-  @override
-  _RiskFactorsPageState createState() => _RiskFactorsPageState();
-}
-
-class _RiskFactorsPageState extends State<RiskFactorsPage> {
-  int riskLevel;
-  List<Card> cards;
-
+class RiskFactorsPage extends StatelessWidget {
   // Helper function to create a new card
   Widget _createCard(RiskFactor riskFactor) {
     return StoreConnector<List<RiskFactor>, VoidCallback>(converter: (store) {
@@ -24,7 +17,9 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Card(
-            color: riskFactor.value ? Colors.blue : Colors.white,
+            color: riskFactor.value
+                ? Theme.of(context).primaryColor
+                : Colors.white,
             child: Center(
               child: ListTile(
                   leading: Icon(
@@ -47,8 +42,15 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
 
   @override
   Widget build(BuildContext context) {
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs.getBool('tutorial_shown') == null) {
+        print("tutorial_shown = ${prefs.getBool('tutorial_shown')}");
+        Navigator.of(context).pushNamed('/onboarding');
+      }
+    });
+
     return Scaffold(
-      appBar: VasculinkAppBar().build(context),
+      appBar: VasculinkAppBar('Risk Factors').build(context),
       body: SafeArea(
         child: StoreConnector<List<RiskFactor>, List<RiskFactor>>(
             converter: (store) => store.state,
@@ -72,74 +74,24 @@ class _RiskFactorsPageState extends State<RiskFactorsPage> {
                       ),
                     ),
                   ),
-                  ...cards,
-                  RawMaterialButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/results');
-                    },
-                    elevation: 2.0,
-                    fillColor: Colors.blue,
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 35.0,
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
-                  ),
-                  SizedBox(height: 10),
-                  Center(
-                      child: Text(
-                    "Selection Complete",
-                    style: TextStyle(color: Colors.grey, fontSize: 18),
-                  )),
+                  ...cards
                 ],
               ));
             }),
       ),
-      /////////////////////////////////////////////////
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 30.0),
-        child: FloatingActionButton(
-          backgroundColor: Colors.white,
-          onPressed: () {},
-          child: Icon(
-            Icons.add,
-            color: Colors.blue,
-          ),
-          elevation: 2.0,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/results');
+        },
+        backgroundColor: Theme.of(context).primaryColor,
+        tooltip: 'Calculate risk',
+        child: Icon(
+          Icons.arrow_forward_ios,
+          size: 24.0,
+          color: Colors.white,
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-            boxShadow: [BoxShadow(color: Colors.black54, blurRadius: 10)]),
-        child: BottomAppBar(
-          //shape: CircularOuterNotchedRectangle(),
-          //notchMargin: 1.0,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 70.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Icon(
-                  Icons.home,
-                  color: Colors.white,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: Text('New Entry'),
-                ),
-                Icon(Icons.person_outline, color: Colors.white)
-              ],
-            ),
-          ),
-          color: Colors.blue,
-        ),
-      ),
-
-      //////////////////////////////////////////////////
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

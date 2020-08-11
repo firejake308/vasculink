@@ -4,8 +4,6 @@ import 'package:vasculink/state_manager.dart';
 import 'package:vasculink/vasculink_app_bar.dart';
 
 class ResultPage extends StatelessWidget {
-  ResultPage();
-
   String getImage(int riskLevel) {
     if (riskLevel < 3) {
       return 'images/LowRisk.png';
@@ -18,22 +16,32 @@ class ResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: VasculinkAppBar().build(context),
+      appBar: VasculinkAppBar('Results').build(context),
       backgroundColor: Colors.grey[100],
-      body: StoreConnector<List<RiskFactor>, int>(converter: (store) {
-        return store.state.fold(
+      body: StoreConnector<List<RiskFactor>, List<RiskFactor>>(
+          converter: (store) {
+        return store.state;
+      }, builder: (context, riskFactors) {
+        // calculate maximum and actual risk level
+        int riskLevel = riskFactors.fold(
             0,
             (runningSum, riskFactor) =>
                 runningSum + (riskFactor.value ? riskFactor.weight : 0));
-      }, builder: (context, riskLevel) {
+        int maxRisk = riskFactors.fold(
+            0, (runningSum, riskFactor) => runningSum + riskFactor.weight);
+
         // build the string for the appropriate risk level
         String riskLevelText;
+        Color riskLevelColor;
         if (riskLevel < 3) {
           riskLevelText = 'Low';
+          riskLevelColor = Colors.lightBlue;
         } else if (riskLevel < 5) {
           riskLevelText = 'Medium';
+          riskLevelColor = Colors.blue;
         } else {
           riskLevelText = 'High';
+          riskLevelColor = Color(0xff005490);
         }
 
         return Column(
@@ -42,7 +50,7 @@ class ResultPage extends StatelessWidget {
             Text(
               'Patient Score',
               style: TextStyle(
-                color: Colors.blue[400],
+                color: Theme.of(context).primaryColor,
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
@@ -64,23 +72,15 @@ class ResultPage extends StatelessWidget {
                       Text(
                         riskLevel.toString(),
                         style: TextStyle(
-                          color: Colors.blue[400],
+                          color: riskLevelColor,
                           fontSize: 55,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        '/',
+                        '/$maxRisk',
                         style: TextStyle(
-                          color: Colors.blue[400],
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '7',
-                        style: TextStyle(
-                          color: Colors.blue[400],
+                          color: Theme.of(context).primaryColor,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),
@@ -112,34 +112,6 @@ class ResultPage extends StatelessWidget {
           ],
         );
       }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        onPressed: () {},
-        child: Icon(
-          Icons.add,
-          color: Colors.blue,
-        ),
-        elevation: 5.0,
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Icon(Icons.home),
-              Padding(
-                padding: const EdgeInsets.only(top: 40.0),
-                child: Text('USE CARD'),
-              ),
-              Icon(Icons.person_outline)
-            ],
-          ),
-        ),
-        color: Colors.blue,
-      ),
     );
   }
 }

@@ -27,12 +27,6 @@ class ReduxDemoPage extends StatelessWidget {
   }
 
   Widget _buildRiskFactorButton(RiskFactor riskFactor) {
-    /*return RaisedButton(
-      onPressed: () => print(riskFactor.name),
-      child: Text((riskFactor.value ? "Not " : "") + riskFactor.name),
-      color: Colors.blue,
-    );*/
-
     return StoreConnector<List<RiskFactor>, VoidCallback>(converter: (store) {
       return () => store
           .dispatch(SetRiskFactorAction(riskFactor.index, !riskFactor.value));
@@ -40,7 +34,6 @@ class ReduxDemoPage extends StatelessWidget {
       return RaisedButton(
         onPressed: callback,
         child: Text((riskFactor.value ? "Not " : "") + riskFactor.name),
-        color: Colors.blue,
       );
     });
   }
