@@ -23,14 +23,17 @@ void main() {
   runApp(MyApp(store));
 }
 
-void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
+  final Store<List<RiskFactor>> store;
+
+  MyApp(this.store);
+
   @override
   Widget build(BuildContext context) {
     return new StoreProvider(
         store: store,
         child: MaterialApp(
-            title: 'Flutter Demo',
+            title: 'Vasculink',
             theme: ThemeData(
               primaryColor: Colors.blue,
               accentColor: Colors.lightBlue,
