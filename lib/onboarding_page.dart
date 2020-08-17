@@ -42,8 +42,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       key: introKey,
       pages: [
         PageViewModel(
-          title: "Evaluate pre-operative risk",
-          body: "Using our validated risk assessment algorithm.",
+          title: "Evaluate pre-operative infection risk",
           image: _buildImage('maleDoc'),
           decoration: pageDecoration,
         ),
