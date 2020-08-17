@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:vasculink/onboarding_page.dart';
 import 'package:vasculink/result_page.dart';
+import 'package:vasculink/risk_factor_clearer.dart';
 import 'package:vasculink/risk_factors_page.dart';
 import 'package:vasculink/state_manager.dart';
 
@@ -33,16 +34,18 @@ class MyApp extends StatelessWidget {
     return new StoreProvider(
         store: store,
         child: MaterialApp(
-            title: 'Vasculink',
-            theme: ThemeData(
-              primaryColor: Colors.blue,
-              accentColor: Colors.lightBlue,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-            ),
-            home: RiskFactorsPage(),
-            routes: <String, WidgetBuilder>{
-              '/onboarding': (BuildContext ctx) => OnBoardingPage(),
-              '/results': (BuildContext ctx) => ResultPage(),
-            }));
+          title: 'Vasculink',
+          theme: ThemeData(
+            primaryColor: Colors.blue,
+            accentColor: Colors.lightBlue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: RiskFactorsPage(),
+          routes: <String, WidgetBuilder>{
+            '/onboarding': (BuildContext ctx) => OnBoardingPage(),
+            '/results': (BuildContext ctx) => ResultPage(),
+          },
+          navigatorObservers: <NavigatorObserver>[RiskFactorClearer(store)],
+        ));
   }
 }
