@@ -6,6 +6,7 @@ import 'package:vasculink/result_page.dart';
 import 'package:vasculink/risk_factor_clearer.dart';
 import 'package:vasculink/risk_factors_page.dart';
 import 'package:vasculink/state_manager.dart';
+import 'package:vasculink/esrd_page.dart';
 
 void main() {
   const riskFactorNames = [
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
           home: RiskFactorsPage(),
           routes: <String, WidgetBuilder>{
             '/onboarding': (BuildContext ctx) => OnBoardingPage(),
+            '/esrd': (BuildContext ctx) => ESRDPage(),
             '/results': (BuildContext ctx) => ResultPage(),
           },
           navigatorObservers: <NavigatorObserver>[RiskFactorClearer(store)],

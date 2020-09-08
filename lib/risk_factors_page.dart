@@ -49,16 +49,16 @@ class RiskFactorsPage extends StatelessWidget {
       }
     });
 
-    return Scaffold(
-      appBar: VasculinkAppBar('Risk Factors').build(context),
-      body: SafeArea(
-        child: StoreConnector<List<RiskFactor>, List<RiskFactor>>(
-            converter: (store) => store.state,
-            builder: (context, riskFactors) {
-              // build cards for each risk factor
-              List<Widget> cards = riskFactors.map(_createCard).toList();
+    return StoreConnector<List<RiskFactor>, List<RiskFactor>>(
+        converter: (store) => store.state,
+        builder: (context, riskFactors) {
+          // build cards for each risk factor
+          List<Widget> cards = riskFactors.map(_createCard).toList();
 
-              return SingleChildScrollView(
+          return Scaffold(
+            appBar: VasculinkAppBar('Risk Factors').build(context),
+            body: SafeArea(
+              child: SingleChildScrollView(
                   child: Column(
                 children: <Widget>[
                   SizedBox(
@@ -76,22 +76,33 @@ class RiskFactorsPage extends StatelessWidget {
                   ),
                   ...cards
                 ],
-              ));
-            }),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/results');
-        },
-        backgroundColor: Theme.of(context).primaryColor,
-        tooltip: 'Calculate risk',
-        child: Icon(
-          Icons.arrow_forward_ios,
-          size: 24.0,
-          color: Colors.white,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+              )),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                // if risk level is above 13, go straight to results
+                int riskLevel = riskFactors.fold(
+                    0,
+                    (runningSum, riskFactor) =>
+                        runningSum +
+                        (riskFactor.value ? riskFactor.weight : 0));
+                if (riskLevel >= 13)
+                  Navigator.pushNamed(context, '/results');
+                // otherwise, check if pt has ESRD to apply expanded algo
+                else
+                  Navigator.pushNamed(context, '/esrd');
+              },
+              backgroundColor: Theme.of(context).primaryColor,
+              tooltip: 'Calculate risk',
+              child: Icon(
+                Icons.arrow_forward_ios,
+                size: 24.0,
+                color: Colors.white,
+              ),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
+        });
   }
 }
