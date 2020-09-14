@@ -8,7 +8,7 @@ import 'package:vasculink/vasculink_app_bar.dart';
 class RiskFactorsPage extends StatelessWidget {
   // Helper function to create a new card
   Widget _createCard(RiskFactor riskFactor) {
-    return StoreConnector<List<RiskFactor>, VoidCallback>(converter: (store) {
+    return StoreConnector<AppState, VoidCallback>(converter: (store) {
       return () => store
           .dispatch(SetRiskFactorAction(riskFactor.index, !riskFactor.value));
     }, builder: (context, callback) {
@@ -49,8 +49,8 @@ class RiskFactorsPage extends StatelessWidget {
       }
     });
 
-    return StoreConnector<List<RiskFactor>, List<RiskFactor>>(
-        converter: (store) => store.state,
+    return StoreConnector<AppState, List<RiskFactor>>(
+        converter: (store) => store.state.riskFactors,
         builder: (context, riskFactors) {
           // build cards for each risk factor
           List<Widget> cards = riskFactors.map(_createCard).toList();

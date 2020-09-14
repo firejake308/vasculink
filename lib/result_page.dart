@@ -18,9 +18,8 @@ class ResultPage extends StatelessWidget {
     return Scaffold(
       appBar: VasculinkAppBar('Results').build(context),
       backgroundColor: Colors.grey[100],
-      body: StoreConnector<List<RiskFactor>, List<RiskFactor>>(
-          converter: (store) {
-        return store.state;
+      body: StoreConnector<AppState, List<RiskFactor>>(converter: (store) {
+        return store.state.riskFactors;
       }, builder: (context, riskFactors) {
         // calculate maximum and actual risk level
         int riskLevel = riskFactors.fold(
