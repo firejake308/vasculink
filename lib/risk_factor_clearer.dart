@@ -13,6 +13,8 @@ class RiskFactorClearer extends NavigatorObserver {
     store.state.asMap().forEach((idx, riskFactor) {
       store.dispatch(SetRiskFactorAction(idx, false));
     });
+    // by default, don't use expanded algorithm
+    store.dispatch(SetExpandedAlgorithmAction(false));
     super.didPop(route, previousRoute);
   }
 }

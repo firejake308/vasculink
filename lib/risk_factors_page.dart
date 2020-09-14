@@ -78,28 +78,35 @@ class RiskFactorsPage extends StatelessWidget {
                 ],
               )),
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                // if risk level is above 13, go straight to results
-                int riskLevel = riskFactors.fold(
-                    0,
-                    (runningSum, riskFactor) =>
-                        runningSum +
-                        (riskFactor.value ? riskFactor.weight : 0));
-                if (riskLevel >= 13)
-                  Navigator.pushNamed(context, '/results');
-                // otherwise, check if pt has ESRD to apply expanded algo
-                else
-                  Navigator.pushNamed(context, '/esrd');
-              },
-              backgroundColor: Theme.of(context).primaryColor,
-              tooltip: 'Calculate risk',
-              child: Icon(
-                Icons.arrow_forward_ios,
-                size: 24.0,
-                color: Colors.white,
-              ),
-            ),
+            floatingActionButton: StoreConnector<AppState, VoidCallback>(
+                converter: (store) =>
+                    () => store.dispatch(SetExpandedAlgorithmAction(true)),
+                builder: (context, dispatchExpandedAlgo) {
+                  return FloatingActionButton(
+                    onPressed: () {
+                      // if risk level is above 13, go straight to results
+                      int riskLevel = riskFactors.fold(
+                          0,
+                          (runningSum, riskFactor) =>
+                              runningSum +
+                              (riskFactor.value ? riskFactor.weight : 0));
+                      if (riskLevel >= 13)
+                        Navigator.pushNamed(context, '/results');
+                      // otherwise, check if pt has ESRD to apply expanded algo
+                      else {
+                        dispatchExpandedAlgo();
+                        Navigator.pushNamed(context, '/esrd');
+                      }
+                    },
+                    backgroundColor: Theme.of(context).primaryColor,
+                    tooltip: 'Calculate risk',
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 24.0,
+                      color: Colors.white,
+                    ),
+                  );
+                }),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
           );
