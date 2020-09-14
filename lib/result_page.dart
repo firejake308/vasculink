@@ -4,10 +4,10 @@ import 'package:vasculink/state_manager.dart';
 import 'package:vasculink/vasculink_app_bar.dart';
 
 class ResultPage extends StatelessWidget {
-  String getImage(int riskLevel) {
-    if (riskLevel < 3) {
+  String getImage(int riskLevel, int highRiskCutoff) {
+    if (riskLevel < highRiskCutoff / 2) {
       return 'images/LowRisk.png';
-    } else if (riskLevel < 5) {
+    } else if (riskLevel < highRiskCutoff) {
       return 'images/MediumRisk.png';
     }
     return 'images/HighRisk.png';
@@ -118,7 +118,7 @@ class ResultPage extends StatelessWidget {
             ),
             Container(
               child: Image.asset(
-                getImage(riskLevel),
+                getImage(riskLevel, highRiskCutoff),
                 height: 180,
               ),
             ),

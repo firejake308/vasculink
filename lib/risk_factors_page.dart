@@ -50,10 +50,11 @@ class RiskFactorsPage extends StatelessWidget {
     });
 
     return StoreConnector<AppState, List<RiskFactor>>(
-        converter: (store) => store.state.riskFactors,
-        builder: (context, riskFactors) {
+        converter: (store) => store.state.riskFactors
+            .sublist(0, store.state.riskFactors.length - 1),
+        builder: (context, baseRiskFactors) {
           // build cards for each risk factor
-          List<Widget> cards = riskFactors.map(_createCard).toList();
+          List<Widget> cards = baseRiskFactors.map(_createCard).toList();
 
           return Scaffold(
             appBar: VasculinkAppBar('Risk Factors').build(context),
@@ -85,7 +86,7 @@ class RiskFactorsPage extends StatelessWidget {
                   return FloatingActionButton(
                     onPressed: () {
                       // if risk level is above 13, go straight to results
-                      int riskLevel = riskFactors.fold(
+                      int riskLevel = baseRiskFactors.fold(
                           0,
                           (runningSum, riskFactor) =>
                               runningSum +

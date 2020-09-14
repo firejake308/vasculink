@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:vasculink/onboarding_page.dart';
 import 'package:vasculink/result_page.dart';
-import 'package:vasculink/risk_factor_clearer.dart';
 import 'package:vasculink/risk_factors_page.dart';
 import 'package:vasculink/state_manager.dart';
 import 'package:vasculink/esrd_page.dart';
@@ -29,7 +28,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final Store<List<RiskFactor>> store;
+  final Store<AppState> store;
 
   MyApp(this.store);
 
@@ -50,7 +49,6 @@ class MyApp extends StatelessWidget {
             '/esrd': (BuildContext ctx) => ESRDPage(),
             '/results': (BuildContext ctx) => ResultPage(),
           },
-          navigatorObservers: <NavigatorObserver>[RiskFactorClearer(store)],
         ));
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:vasculink/state_manager.dart';
 import 'package:vasculink/vasculink_app_bar.dart';
 
 class ESRDPage extends StatelessWidget {
@@ -22,22 +24,31 @@ class ESRDPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        RaisedButton(
-                            onPressed: () => null,
-                            child: Text('Yes',
-                                style: TextStyle(color: Colors.white)),
-                            color: Theme.of(context).primaryColor),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        RaisedButton(
-                            onPressed: () => null,
-                            child: Text('No'),
-                            color: Colors.white),
-                      ],
+                    StoreConnector<AppState, Function(bool, BuildContext)>(
+                      converter: (store) => (bool value, BuildContext context) {
+                        store.dispatch(SetRiskFactorAction(
+                            store.state.riskFactors.length - 1, value));
+                        Navigator.of(context).pushNamed('/results');
+                      },
+                      builder: (context, setESRD) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            RaisedButton(
+                                onPressed: () => setESRD(true, context),
+                                child: Text('Yes',
+                                    style: TextStyle(color: Colors.white)),
+                                color: Theme.of(context).primaryColor),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            RaisedButton(
+                                onPressed: () => setESRD(false, context),
+                                child: Text('No'),
+                                color: Colors.white),
+                          ],
+                        );
+                      },
                     )
                   ],
                 ))));
