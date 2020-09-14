@@ -18,24 +18,38 @@ class ResultPage extends StatelessWidget {
     return Scaffold(
       appBar: VasculinkAppBar('Results').build(context),
       backgroundColor: Colors.grey[100],
-      body: StoreConnector<AppState, List<RiskFactor>>(converter: (store) {
-        return store.state.riskFactors;
-      }, builder: (context, riskFactors) {
+      body: StoreConnector<AppState, AppState>(converter: (store) {
+        return store.state;
+      }, builder: (context, state) {
         // calculate maximum and actual risk level
-        int riskLevel = riskFactors.fold(
+        // start by adding up all factors other than ESRD
+        List<RiskFactor> baseRiskFactors =
+            state.riskFactors.sublist(0, state.riskFactors.length - 1);
+        int riskLevel = baseRiskFactors.fold(
             0,
             (runningSum, riskFactor) =>
                 runningSum + (riskFactor.value ? riskFactor.weight : 0));
-        int maxRisk = riskFactors.fold(
+        int maxRisk = baseRiskFactors.fold(
             0, (runningSum, riskFactor) => runningSum + riskFactor.weight);
+
+        // then apply expanded algorithm if needed
+        if (state.useExpandedAlgorithm) {
+          RiskFactor esrd = state.riskFactors[state.riskFactors.length - 1];
+          maxRisk += esrd.weight;
+          riskLevel += esrd.value ? esrd.weight : 0;
+        }
+
+        // set the high-risk cutoff based on whether the base or expanded algo
+        // is being used
+        int highRiskCutoff = state.useExpandedAlgorithm ? 19 : 13;
 
         // build the string for the appropriate risk level
         String riskLevelText;
         Color riskLevelColor;
-        if (riskLevel < 3) {
+        if (riskLevel < highRiskCutoff / 2) {
           riskLevelText = 'Low';
           riskLevelColor = Colors.lightBlue;
-        } else if (riskLevel < 5) {
+        } else if (riskLevel < highRiskCutoff) {
           riskLevelText = 'Medium';
           riskLevelColor = Colors.blue;
         } else {

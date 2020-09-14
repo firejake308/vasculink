@@ -15,13 +15,16 @@ void main() {
     ["BMI > 30", 5, Icons.warning],
     ["Reoperation", 7, Icons.replay],
     ["Prosthetic reconstruction", 1, Icons.content_cut],
+    ["ESRD", 15, null],
   ];
-  var initialState = riskFactorNames
+  var initialRiskFactors = riskFactorNames
       .asMap()
       .entries
       .map((e) => RiskFactor(e.key, e.value[0], e.value[1], e.value[2]))
       .toList();
-  final store = new Store(riskFactorsReducer, initialState: initialState);
+  final store = new Store(appStateReducer,
+      initialState: AppState(
+          riskFactors: initialRiskFactors, useExpandedAlgorithm: false));
   runApp(MyApp(store));
 }
 
