@@ -15,6 +15,7 @@ void main() {
     ["BMI > 30", 5, Icons.warning],
     ["Reoperation", 7, Icons.replay],
     ["Prosthetic reconstruction", 1, Icons.content_cut],
+    ["Emergency", 1, Icons.error]
   ];
   var initialState = riskFactorNames
       .asMap()
