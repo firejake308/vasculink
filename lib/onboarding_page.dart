@@ -43,6 +43,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       pages: [
         PageViewModel(
           title: "Evaluate pre-operative infection risk",
+          body: '',
           image: _buildImage('maleDoc'),
           decoration: pageDecoration,
         ),
