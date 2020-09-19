@@ -4,10 +4,10 @@ import 'package:vasculink/state_manager.dart';
 import 'package:vasculink/vasculink_app_bar.dart';
 
 class ResultPage extends StatelessWidget {
-  String getImage(int riskLevel) {
-    if (riskLevel < 3) {
+  String getImage(int riskLevel, int highRiskCutoff) {
+    if (riskLevel < highRiskCutoff / 2) {
       return 'images/LowRisk.png';
-    } else if (riskLevel < 5) {
+    } else if (riskLevel < highRiskCutoff) {
       return 'images/MediumRisk.png';
     }
     return 'images/HighRisk.png';
@@ -18,25 +18,38 @@ class ResultPage extends StatelessWidget {
     return Scaffold(
       appBar: VasculinkAppBar('Results').build(context),
       backgroundColor: Colors.grey[100],
-      body: StoreConnector<List<RiskFactor>, List<RiskFactor>>(
-          converter: (store) {
+      body: StoreConnector<AppState, AppState>(converter: (store) {
         return store.state;
-      }, builder: (context, riskFactors) {
+      }, builder: (context, state) {
         // calculate maximum and actual risk level
-        int riskLevel = riskFactors.fold(
+        // start by adding up all factors other than ESRD
+        List<RiskFactor> baseRiskFactors =
+            state.riskFactors.sublist(0, state.riskFactors.length - 1);
+        int riskLevel = baseRiskFactors.fold(
             0,
             (runningSum, riskFactor) =>
                 runningSum + (riskFactor.value ? riskFactor.weight : 0));
-        int maxRisk = riskFactors.fold(
+        int maxRisk = baseRiskFactors.fold(
             0, (runningSum, riskFactor) => runningSum + riskFactor.weight);
+
+        // then apply expanded algorithm if needed
+        if (state.useExpandedAlgorithm) {
+          RiskFactor esrd = state.riskFactors[state.riskFactors.length - 1];
+          maxRisk += esrd.weight;
+          riskLevel += esrd.value ? esrd.weight : 0;
+        }
+
+        // set the high-risk cutoff based on whether the base or expanded algo
+        // is being used
+        int highRiskCutoff = state.useExpandedAlgorithm ? 19 : 13;
 
         // build the string for the appropriate risk level
         String riskLevelText;
         Color riskLevelColor;
-        if (riskLevel < 3) {
+        if (riskLevel < highRiskCutoff / 2) {
           riskLevelText = 'Low';
           riskLevelColor = Colors.lightBlue;
-        } else if (riskLevel < 5) {
+        } else if (riskLevel < highRiskCutoff) {
           riskLevelText = 'Medium';
           riskLevelColor = Colors.blue;
         } else {
@@ -105,7 +118,7 @@ class ResultPage extends StatelessWidget {
             ),
             Container(
               child: Image.asset(
-                getImage(riskLevel),
+                getImage(riskLevel, highRiskCutoff),
                 height: 180,
               ),
             ),
