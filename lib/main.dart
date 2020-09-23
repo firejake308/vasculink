@@ -11,7 +11,7 @@ void main() {
   const riskFactorNames = [
     ["Female", 4, Icons.wc],
     ["Smoker", 2, Icons.smoking_rooms],
-    ["BMI > 28", 9, Icons.warning],
+    ["BMI > 28", 9, Icons.accessibility_new],
     ["Reoperation", 13, Icons.replay],
     ["Prosthetic reconstruction", 7, Icons.content_cut],
     ["Emergency", 1, Icons.error]
