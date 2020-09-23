@@ -1,4 +1,3 @@
-package io.flutter.plugins;
 
 import io.flutter.plugin.common.PluginRegistry;
 
