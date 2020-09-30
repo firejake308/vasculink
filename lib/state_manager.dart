@@ -34,3 +34,30 @@ List<RiskFactor> riskFactorsReducer(List<RiskFactor> state, dynamic action) {
   print(action);
   return state;
 }
+
+// encapsulates an update to whether or not to use the expanded algorithm
+class SetExpandedAlgorithmAction {
+  bool value;
+
+  SetExpandedAlgorithmAction(this.value);
+}
+
+bool expandedAlgorithmReducer(bool state, dynamic action) {
+  if (action is SetExpandedAlgorithmAction) return action.value;
+  return state;
+}
+
+class AppState {
+  List<RiskFactor> riskFactors;
+  bool useExpandedAlgorithm;
+
+  AppState({this.riskFactors, this.useExpandedAlgorithm});
+}
+
+AppState appStateReducer(AppState state, dynamic action) {
+  return AppState(
+    riskFactors: riskFactorsReducer(state.riskFactors, action),
+    useExpandedAlgorithm:
+        expandedAlgorithmReducer(state.useExpandedAlgorithm, action),
+  );
+}

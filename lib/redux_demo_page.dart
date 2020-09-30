@@ -6,8 +6,8 @@ import 'package:vasculink/state_manager.dart';
 class ReduxDemoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<List<RiskFactor>, List<RiskFactor>>(
-        converter: (store) => store.state,
+    return StoreConnector<AppState, List<RiskFactor>>(
+        converter: (store) => store.state.riskFactors,
         builder: (context, riskFactors) {
           var riskFactorButtons = riskFactors
               .map((riskFactor) => _buildRiskFactorButton(riskFactor))
@@ -27,7 +27,7 @@ class ReduxDemoPage extends StatelessWidget {
   }
 
   Widget _buildRiskFactorButton(RiskFactor riskFactor) {
-    return StoreConnector<List<RiskFactor>, VoidCallback>(converter: (store) {
+    return StoreConnector<AppState, VoidCallback>(converter: (store) {
       return () => store
           .dispatch(SetRiskFactorAction(riskFactor.index, !riskFactor.value));
     }, builder: (context, callback) {
