@@ -9,11 +9,12 @@ import 'package:vasculink/esrd_page.dart';
 
 void main() {
   const riskFactorNames = [
-    ["Female", 2, Icons.wc],
-    ["Smoker", 1, Icons.smoking_rooms],
-    ["BMI > 30", 5, Icons.warning],
-    ["Reoperation", 7, Icons.replay],
-    ["Prosthetic reconstruction", 1, Icons.content_cut],
+    ["Female", 4, Icons.wc],
+    ["Smoker", 2, Icons.smoking_rooms],
+    ["BMI ≥ 28", 9, Icons.accessibility_new],
+    ["Reoperation", 13, Icons.replay],
+    ["Prosthetic reconstruction", 7, Icons.content_cut],
+    ["Emergency", 1, Icons.error],
     ["ESRD", 15, null],
   ];
   var initialRiskFactors = riskFactorNames
