@@ -7,7 +7,7 @@ class ESRDPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: VasculinkAppBar('Risk Factors 2').build(context),
+        appBar: VasculinkAppBar('Risk Factors (cont.)').build(context),
         body: SafeArea(
             child: Align(
                 alignment: Alignment.topCenter,

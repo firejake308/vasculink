@@ -5,10 +5,8 @@ import 'package:vasculink/vasculink_app_bar.dart';
 
 class ResultPage extends StatelessWidget {
   String getImage(int riskLevel, int highRiskCutoff) {
-    if (riskLevel < highRiskCutoff / 2) {
+    if (riskLevel < highRiskCutoff) {
       return 'images/LowRisk.png';
-    } else if (riskLevel < highRiskCutoff) {
-      return 'images/MediumRisk.png';
     }
     return 'images/HighRisk.png';
   }
@@ -46,15 +44,12 @@ class ResultPage extends StatelessWidget {
         // build the string for the appropriate risk level
         String riskLevelText;
         Color riskLevelColor;
-        if (riskLevel < highRiskCutoff / 2) {
+        if (riskLevel < highRiskCutoff) {
           riskLevelText = 'Low';
-          riskLevelColor = Colors.lightBlue;
-        } else if (riskLevel < highRiskCutoff) {
-          riskLevelText = 'Medium';
-          riskLevelColor = Colors.blue;
+          riskLevelColor = Color(0xff2a93fb);
         } else {
           riskLevelText = 'High';
-          riskLevelColor = Color(0xff005490);
+          riskLevelColor = Color(0xffb42629);
         }
 
         return Column(
@@ -63,7 +58,7 @@ class ResultPage extends StatelessWidget {
             Text(
               'Patient Score',
               style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Colors.black,
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
@@ -93,9 +88,8 @@ class ResultPage extends StatelessWidget {
                       Text(
                         '/$maxRisk',
                         style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black,
                           fontSize: 25,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
@@ -106,8 +100,9 @@ class ResultPage extends StatelessWidget {
                   Text(
                     '$riskLevelText Risk',
                     style: TextStyle(
-                      color: Colors.black26,
+                      color: riskLevelColor,
                       fontSize: 25,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(
