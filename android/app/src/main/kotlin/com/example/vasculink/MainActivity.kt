@@ -1,4 +1,4 @@
-package com.example.vasculink
+package com.slinghealthvasculink.vasculink
 
 import io.flutter.embedding.android.FlutterActivity
 

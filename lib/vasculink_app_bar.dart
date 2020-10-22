@@ -29,7 +29,9 @@ class VasculinkAppBar extends StatelessWidget {
               List<RiskFactor> riskFactors = storeConnection[0];
               Function dispatch = storeConnection[1];
               return IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: ModalRoute.of(context).settings.name == '/'
+                    ? Image.asset('images/v_icon.png')
+                    : Icon(Icons.arrow_back),
                 onPressed: () {
                   // reset all risk factors to false
                   riskFactors.asMap().forEach((idx, riskFactor) {

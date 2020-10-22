@@ -44,7 +44,6 @@ class RiskFactorsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     SharedPreferences.getInstance().then((prefs) {
       if (prefs.getBool('tutorial_shown') == null) {
-        print("tutorial_shown = ${prefs.getBool('tutorial_shown')}");
         Navigator.of(context).pushNamed('/onboarding');
       }
     });
