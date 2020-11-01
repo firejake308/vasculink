@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vasculink/state_manager.dart';
 import 'package:vasculink/vasculink_app_bar.dart';
 
@@ -117,6 +118,14 @@ class ResultPage extends StatelessWidget {
                 height: 180,
               ),
             ),
+            IconButton(
+                icon: Icon(Icons.info_outline),
+                onPressed: () async {
+                  const url = "https://slinghealthvasculink.weebly.com/";
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  }
+                })
           ],
         );
       }),
